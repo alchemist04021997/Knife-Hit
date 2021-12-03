@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Knife : MonoBehaviour
 {
-    [HideInInspector] public bool usedKnife, falseKnife;
+    [HideInInspector] public bool usedKnife, missedKnife;
     CuttingBoard cuttingBoard;
     Knife launchedKnife;
     float knifeSpeed;
@@ -14,18 +14,22 @@ public class Knife : MonoBehaviour
     {
         transform.position += new Vector3(boucing, knifeSpeed);
         transform.Rotate(spinningAngle);
-        if (falseKnife)
-        {
-        }
+    }
 
+    private void Update()
+    {
         if (!usedKnife)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (!missedKnife)
             {
-                knifeSpeed = 1;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    knifeSpeed = 1;
+                }
             }
         }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         cuttingBoard = collision.GetComponent<CuttingBoard>();
@@ -34,7 +38,7 @@ public class Knife : MonoBehaviour
         
         if (cuttingBoard)
         {
-            if (falseKnife)
+            if (missedKnife)
             {
                 return;
             }
@@ -50,7 +54,7 @@ public class Knife : MonoBehaviour
         }
         if (launchedKnife)
         {
-            if (launchedKnife.falseKnife)
+            if (launchedKnife.missedKnife)
             {
                 return;
             }
@@ -60,23 +64,23 @@ public class Knife : MonoBehaviour
             }
             else
             {
-                launchedKnife.falseKnife = true;
+                launchedKnife.missedKnife = true;
                 if (transform.position.x < launchedKnife.transform.position.x)
                 {
-                    launchedKnife.boucing = 1;
+                    launchedKnife.boucing = 0.2f;
                     launchedKnife.spinningAngle.z = -30;
-                    launchedKnife.knifeSpeed = -1;
+                    launchedKnife.knifeSpeed = -0.2f;
                 }
                 else if (transform.position.x > launchedKnife.transform.position.x)
                 {
-                    launchedKnife.boucing = -1;
+                    launchedKnife.boucing = -0.2f;
                     launchedKnife.spinningAngle.z = 30;
-                    launchedKnife.knifeSpeed = -1;
+                    launchedKnife.knifeSpeed = -0.2f;
                 }
                 else
                 {
                     launchedKnife.spinningAngle.z = 30;
-                    launchedKnife.knifeSpeed = -1;
+                    launchedKnife.knifeSpeed = -0.3f;
                 }
             }
         }
