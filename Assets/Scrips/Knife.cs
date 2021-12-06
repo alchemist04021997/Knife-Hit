@@ -10,9 +10,22 @@ public class Knife : MonoBehaviour
     float knifeSpeed;
     Vector3 spinningAngle;
     float boucing;
+    float gravity;
+    public bool IsUseGravity
+    {
+        get
+        {
+            return gravity > 0;
+        }
+        set
+        {
+            gravity = value ? -0.01f : 0;
+        }
+    }
     private void FixedUpdate()
     {
         transform.position += new Vector3(boucing, knifeSpeed);
+        knifeSpeed += gravity;
         transform.Rotate(spinningAngle);
     }
 
@@ -44,12 +57,10 @@ public class Knife : MonoBehaviour
             }
             else
             {
-                if (cuttingBoard.transform.position.y - transform.position.y <= 1.75f)
-                {
-                    knifeSpeed = 0;
-                    transform.SetParent(cuttingBoard.transform.parent);
-                    usedKnife = true;
-                }
+                knifeSpeed = 0;
+                transform.position = new Vector3(0, -1.5f) + cuttingBoard.transform.position;
+                transform.SetParent(cuttingBoard.transform.parent);
+                usedKnife = true;
             }
         }
         if (launchedKnife)
@@ -65,22 +76,23 @@ public class Knife : MonoBehaviour
             else
             {
                 launchedKnife.missedKnife = true;
+                launchedKnife.IsUseGravity = true;
                 if (transform.position.x < launchedKnife.transform.position.x)
                 {
-                    launchedKnife.boucing = 0.2f;
+                    launchedKnife.boucing = 0.1f;
                     launchedKnife.spinningAngle.z = -30;
-                    launchedKnife.knifeSpeed = -0.2f;
+                    launchedKnife.knifeSpeed = -0.1f;
                 }
                 else if (transform.position.x > launchedKnife.transform.position.x)
                 {
-                    launchedKnife.boucing = -0.2f;
+                    launchedKnife.boucing = -0.1f;
                     launchedKnife.spinningAngle.z = 30;
-                    launchedKnife.knifeSpeed = -0.2f;
+                    launchedKnife.knifeSpeed = -0.1f;
                 }
                 else
                 {
                     launchedKnife.spinningAngle.z = 30;
-                    launchedKnife.knifeSpeed = -0.3f;
+                    launchedKnife.knifeSpeed = -0.2f;
                 }
             }
         }

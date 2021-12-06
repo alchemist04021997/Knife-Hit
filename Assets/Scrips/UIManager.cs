@@ -24,11 +24,11 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         GameObject go;
-        for (int i = 0; i < GameManager.Instance.numberKnife; i++)
+        for (int i = 0; i < GameplayManager.Instance.Board.numberKnife; i++)
         {
             go = Instantiate(knifePrefab);
             go.name = "knife" + i;
-            go.transform.position += new Vector3(0, i * 50, 0);
+            go.transform.position += new Vector3(0, i * 10, 0);
             go.transform.SetParent(transform);
             knifeImage.Add(go.GetComponent<Image>());
         }
