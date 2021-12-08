@@ -18,17 +18,16 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
-
     }
-    private void Start()
+    public void CreatingKnife()
     {
+        ClearKnife();
         GameObject go;
         for (int i = 0; i < GameplayManager.Instance.Board.numberKnife; i++)
         {
             go = Instantiate(knifePrefab);
             go.name = "knife" + i;
-            go.transform.position += new Vector3(0, i * 10, 0);
+            go.transform.position += new Vector3(0, i * 30, 0);
             go.transform.SetParent(transform);
             knifeImage.Add(go.GetComponent<Image>());
         }
@@ -39,5 +38,13 @@ public class UIManager : MonoBehaviour
         {
             knifeImage[numberKnife].color = Color.black;
         }
+    }
+    public void ClearKnife()
+    {
+        for (int i = 0; i < knifeImage.Count; i++)
+        {
+            Destroy(knifeImage[i].gameObject);
+        }
+        knifeImage.Clear();
     }
 }

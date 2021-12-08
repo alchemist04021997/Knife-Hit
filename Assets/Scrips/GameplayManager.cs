@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameplayManager : MonoBehaviour
 {
     public static GameplayManager Instance;
-
+    [SerializeField] FalsePopup falsePopup;
     private MovingBoard _board;
     public MovingBoard Board 
     { 
@@ -20,11 +20,18 @@ public class GameplayManager : MonoBehaviour
     }
     private void Awake()
     {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     private void Start()
     {
+        UIManager.instance.CreatingKnife();
     }
     private void Update()
     {
@@ -35,16 +42,27 @@ public class GameplayManager : MonoBehaviour
     {
         SystemManager.Instance.Stage++;
         CreateBoard();
+        UIManager.instance.CreatingKnife();
         Board.transform.position += new Vector3(5, 0);
     }
 
     public void OnLose()
     {
-
+        falsePopup.gameObject.SetActive(true);
     }
-
+    public void OnContinue()
+    {
+        if (Board.numberKnife > 0)
+        {
+            Instantiate(Resources.Load("Knife"));
+        }
+    }
     void CreateBoard()
     {
+        if (Resources.Load("Maps/Map" + SystemManager.Instance.Stage) == null)
+        {
+            SystemManager.Instance.Stage = 1;
+        }
         _board = ((GameObject)Instantiate(Resources.Load("Maps/Map" + SystemManager.Instance.Stage))).GetComponent<MovingBoard>();
     }
 }

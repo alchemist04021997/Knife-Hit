@@ -76,7 +76,9 @@ public class Knife : MonoBehaviour
             else
             {
                 launchedKnife.missedKnife = true;
+                Destroy(launchedKnife.gameObject, 1);
                 launchedKnife.IsUseGravity = true;
+                GameplayManager.Instance.OnLose();
                 if (transform.position.x < launchedKnife.transform.position.x)
                 {
                     launchedKnife.boucing = 0.1f;

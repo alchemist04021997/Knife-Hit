@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,10 @@ public class HomeManager : MonoBehaviour
 
     void OnPlayButton()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Gameplay");
+        Action action = () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Gameplay");
+        };
+        AdManager.ShowInter(action);
     }
 }

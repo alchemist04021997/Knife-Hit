@@ -39,6 +39,9 @@ public class SystemManager
 
     public SystemManager()
     {
-
+        AdManager.AddAd(new AdAdmob());
+        GameObject go = new GameObject("AdManager");
+        go.AddComponent<AdManager>();
+        Object.DontDestroyOnLoad(go);
     }
 }
